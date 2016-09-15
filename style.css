@@ -1,0 +1,35 @@
+body {
+    font-family: 'Segoe UI', sans-serif;
+    background-color: #E0E0E0;
+}
+
+span {
+    font-style: italic;
+}
+
+.panelDatosJuego{
+	height: 400px;	
+	background-color: red;
+	width: 300px;
+	float: left;	
+}
+.panelJuego{
+	height: 400px;	
+	width: 550px;
+	
+	float: left;
+	margin-left: 180px;
+	
+
+}
+.panelDatosJugador{
+	height: 400px;
+	width: 300px;
+	background-color: #EEEEEE;
+	float: right;
+}
+.nombreJuego{	
+	text-align: center;
+}
+
+
