@@ -102,20 +102,36 @@ module BuscaMinas{
         } 
 
         
-        private expand(fila: number, columna: number, matrix: any) {
-           var btn: any;
+        private expand(fila: number, columna: number, matrix: any):boolean {
+            
+            var btn: any;
             btn = document.getElementById(fila + '_' + columna);
             var value = matrix[fila][columna];            
-
-            if (btn.disabled) {
+            
+             if (btn.disabled) {
                 return false;
             }
 
-            if (value != '*') {
+            if (value!=0) {// si hay más de 0 minas  al boton                
                 btn.value = value;
                 btn.style.background = "#EEEEEE";
-                btn.disabled = 'true';               
-                return false;
+                btn.disabled = 'true';  
+                return false;                            
+            }
+
+            if (value==false) { //Si no hay minas               
+                btn.value = ' ';
+                btn.disabled = 'true';
+                btn.style.background = "#EEEEEE";
+            }
+            
+            var limitesSeleccion = [[fila - 1, columna], [fila + 1, columna], [fila, columna - 1], [fila, columna + 1], [fila - 1, columna - 1], [fila + 1, columna - 1], [fila - 1, columna + 1], [fila + 1, columna + 1]];
+            for (var i: number = 0; i < limitesSeleccion.length; i++) {
+                try {                                                               
+                    if (matrix[limitesSeleccion[i][0]][limitesSeleccion[i][1]] != '*') {                       
+                        this.expand(limitesSeleccion[i][0], limitesSeleccion[i][1], matrix);
+                    }
+                } catch (e) { }
             }
         } 
 
@@ -150,5 +166,5 @@ module BuscaMinas{
 }
 
 window.onload = () => {
-    var juego = new BuscaMinas.Juego(0,3, 7,4);
+    var juego = new BuscaMinas.Juego(0,4, 4,2);
 };
