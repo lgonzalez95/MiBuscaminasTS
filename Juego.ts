@@ -14,30 +14,27 @@ module BuscaMinas{
 			this.tiempoJuego=_tiempoInicial;
             this.cantidadMinas=_cantidadMinas;
 
-
 			this.iniciarCronometro();
 			this.dibujarTablero("panelJuego");
             this.generarMinas();
-
 
             this.buttons = document.getElementsByName('btn');
             this.initializeGame();                       
 		}
 
-		 public iniciarCronometro() {
-            var self = this;
+		 public iniciarCronometro() {            
             this.interval = setInterval(() => {
-              self.tiempoJuego++;
-              document.getElementById('tiempo').innerHTML = self.tiempoJuego.toString();  
+              this.tiempoJuego++;
+              document.getElementById('tiempo').innerHTML = this.tiempoJuego.toString();  
             }, 1000);
         }
 
          public dibujarTablero(elementId: string) {
             var div = document.getElementById(elementId);
             div.innerHTML = '';
-            for (var i: number = 0; i < this.alto; i++) {
-                for (var j: number = 0; j < this.ancho; j++) {
-                    div.innerHTML += '<input type="button" name="btn" id="' + i + '_' + j + '" style="background-color:#9E9E9E; font-weight: bold;  font-size: 16px;  width:50px; height:50px" value=" "/>';                    
+            for (var fila: number = 0; fila < this.alto; fila++) {
+                for (var columna: number = 0; columna < this.ancho; columna++) {
+                    div.innerHTML += '<input type="button" name="btn" id="' + fila + '_' + columna + '" style="background-color:#9E9E9E; font-weight: bold;  font-size: 16px;  width:50px; height:50px" value=" "/>';                    
                 }
                 div.innerHTML += '<br/>';
             } 
@@ -51,17 +48,17 @@ module BuscaMinas{
             let matriz: number[][];//se usaba var
             matriz = new Array(this.alto);// Las columnas son arrays
 
-            for (let i: number = 0; i < this.alto; i++) {
-                matriz[i] = new Array(this.ancho);// Las filas son arrays
+            for (let fila: number = 0; fila < this.alto; fila++) {
+                matriz[fila] = new Array(this.ancho);// Las filas son arrays
 
-                for (let j: number = 0; j < this.ancho; j++) {
-                    matriz[i][j] = 0;
+                for (let columna: number = 0; columna < this.ancho; columna++) {
+                    matriz[fila][columna] = 0;
                 }
             }
             return matriz;
         }
 
-        public generarMinas() {
+        public generarMinas():void {
             let _matriz: number[][] = this.iniciarMatriz();
             var minesCounter: number = 0;
             var minasAdyacentes: number;
@@ -135,7 +132,22 @@ module BuscaMinas{
             }
         } 
 
+    public comprobarGanador(width: number, height: number, minesNumber: number):boolean {
+            var botonesDisponibles = 0;
+            var btn: any;
 
+            for (var fila = 0; fila < height; fila++) {
+
+                for (var columna = 0; columna < width; columna++) {
+                    btn = document.getElementById(fila + '_' + columna);
+
+                    if (!btn.disabled) {
+                        botonesDisponibles++;
+                    }
+                }
+            }
+            return botonesDisponibles == minesNumber;
+        }
 
         private initializeGame() {            
             for (var i: number = 0; i < this.buttons.length; i++) {
@@ -152,19 +164,17 @@ module BuscaMinas{
                         this.expand(parseInt(idBotonPresionado[0]), parseInt(idBotonPresionado[1]), this.matriz);
                     }
 
-                    /*if (this.comprobarGanador(this.ancho, this.alto, this.cantidadMinas)) {
-                        alert('You win!');
+                    if (this.comprobarGanador(this.ancho, this.alto, this.cantidadMinas)==true) {
+                        alert('Felicidades, Has ganado el juego');
                         location.href = location.href;
-                    }*/
+                    }
                 }
             }
         }
 
 	}
-
-
 }
 
 window.onload = () => {
-    var juego = new BuscaMinas.Juego(0,4, 4,2);
+    var juego = new BuscaMinas.Juego(0,6, 6,5);
 };
