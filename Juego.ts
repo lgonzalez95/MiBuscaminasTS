@@ -19,7 +19,7 @@ module BuscaMinas{
             this.generarMinas();
 
             this.buttons = document.getElementsByName('btn');
-            this.initializeGame();                       
+            this.initializeGame();                     
 		}
 
 		 public iniciarCronometro() {            
@@ -57,6 +57,9 @@ module BuscaMinas{
             }
             return matriz;
         }
+        //DE AQUÍ HACIA ARRIBA SE PUEDE PASAR EL CÓDIGO PERFECTAMENTE
+
+
 
         public generarMinas():void {
             let _matriz: number[][] = this.iniciarMatriz();
@@ -67,17 +70,15 @@ module BuscaMinas{
                 var minaAleatoria: number = this.numAleatorio(0, 1);        //Establece la variable en 0 ó 1           
                 //Saca un vector con 2 valores, uno la fila ubicado en posición 0, y la columna en posicion 1                
                 var posicionAleatoria: number[] = [this.numAleatorio(0, this.alto - 1), this.numAleatorio(0, this.ancho - 1)];                
-                
-                //console.log("Matriz " +_matriz[posicionAleatoria[0]][posicionAleatoria[1]])
+                                
+
                 if (!_matriz[posicionAleatoria[0]][posicionAleatoria[1]]) {//Siempre entra al if                                      
                     minesCounter += (minaAleatoria) ? 1 : 0;    //Si la variable minaAleatoria es 1, suma 1 sino 0                    
                     if (minaAleatoria) {//si es true O SEA 1, ENTRA                                                
-                        //console.log("Fila: " +posicionAleatoria[0]+ " Columna:" +  posicionAleatoria[1] );
                          var div = document.getElementById(posicionAleatoria[0] + '_' + posicionAleatoria[1]);
                          div.style.background = "red";
                         _matriz[posicionAleatoria[0]][posicionAleatoria[1]] = -1;
-
-                        //console.log("-1 en  " + posicionAleatoria[0] + " y " +  posicionAleatoria[1]);
+                       
                         for (var fila: number = posicionAleatoria[0] - 1; fila <= posicionAleatoria[0] + 1; fila++) {                                                        
                             for (var columna: number = posicionAleatoria[1] -1 ; columna <= posicionAleatoria[1]+1; columna++) {
                                 try {
@@ -88,7 +89,7 @@ module BuscaMinas{
                                         _matriz[fila][columna] = minasAdyacentes;
                                     }                                    
                                 } catch (e) {                                    
-                                }//TypeError probablemente 
+                                }
                             }
                         }
                         
@@ -99,13 +100,13 @@ module BuscaMinas{
         } 
 
         
-        private expand(fila: number, columna: number, matrix: any):boolean {
+        private expandir(fila: number, columna: number, matrix: any):boolean {
             
             var btn: any;
             btn = document.getElementById(fila + '_' + columna);
             var value = matrix[fila][columna];            
             
-             if (btn.disabled) {
+             if (btn.disabled) {                
                 return false;
             }
 
@@ -126,7 +127,7 @@ module BuscaMinas{
             for (var i: number = 0; i < limitesSeleccion.length; i++) {
                 try {                                                               
                     if (matrix[limitesSeleccion[i][0]][limitesSeleccion[i][1]] != '*') {                       
-                        this.expand(limitesSeleccion[i][0], limitesSeleccion[i][1], matrix);
+                        this.expandir(limitesSeleccion[i][0], limitesSeleccion[i][1], matrix);
                     }
                 } catch (e) { }
             }
@@ -161,7 +162,7 @@ module BuscaMinas{
                         alert('Has perdido!');
                         location.href = location.href;
                     } else {                        
-                        this.expand(parseInt(idBotonPresionado[0]), parseInt(idBotonPresionado[1]), this.matriz);
+                        this.expandir(parseInt(idBotonPresionado[0]), parseInt(idBotonPresionado[1]), this.matriz);
                     }
 
                     if (this.comprobarGanador(this.ancho, this.alto, this.cantidadMinas)==true) {
