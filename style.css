@@ -14,18 +14,9 @@ span {
 }
 .panelJuego{
 	height: 400px;	
-	width: 550px;
-	
+	width: 550px;	
 	float: left;
 	margin-left: 180px;
-	
-
-}
-.panelDatosJugador{
-	height: 400px;
-	width: 300px;
-	 
-	float: right;
 }
 .nombreJuego{	
 	text-align: center;
